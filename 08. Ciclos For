@@ -1,0 +1,63 @@
+¿Qué es un ciclo?
+Programar es difícil y se hace más difícil cuando tenés que hacer las mismas cosas en forma repetida. Si queremos mostrar usando echo una lista de años bisiestos (http://en.wikipedia.org/wiki/Leap_year) en el editor vas a pensar que tenemos que escribir:
+
+<?php
+    echo 2004;
+    echo 2008;
+    echo 2012;
+    // etc.
+?>
+Pero hay una forma mejor.
+
+Un ciclo es un bit de código muy útil, que repite una serie de instrucciones. Por ejemplo, en vez de escribir echo muchas veces como hicimos antes, simplemente podemos usar el código en el editor que está a la derecha.
+
+@Instrucciones
+
+Mirá el ciclo for que se está en el editor. ¿Ves cómo muestra mediante echo el valor para $bisiesto, le agrega cuatro y después se repite?
+@Solución
+
+<?php
+  for ($bisiesto = 2004; $bisiesto < 2050; $bisiesto = $bisiesto + 4) {
+    echo "<p>$bisiesto</p>";
+  }
+?>
+Sintaxis del ciclo "For"
+Qué bueno, ¿no? Revisemos la sintaxis despacio, paso a paso. Acá te damos un ejemplo que muestra en pantalla usando echo los números del 0 al 9:
+
+<?php
+  for ($i = 0; $i < 10; $i++) {
+      echo $i;
+  }
+// muestra en pantalla 0123456789
+?>
+Se descompone así:
+
+Un ciclo for empieza con la palabra clave for. Esto le dice a PHP que se prepare para hacer un ciclo.
+
+Después viene el conjunto de paréntesis (()). Dentro de los paréntesis, le decimos a PHP tres cosas, separadas por punto y coma (;): dónde empezar el ciclo; dónde terminar el ciclo; y qué hacer para llegar a la próxima iteración del ciclo (por ejemplo, contar de a uno).
+
+Después de la parte entre paréntesis, la parte en llaves ({}) le dice a PHP qué código ejecutar para cada iteración del ciclo.
+
+Entonces, el ejemplo anterior dice: "Empezá a recorrer con $i en 0, detené el ciclo antes de que $i llegue a 10, contá de a 1 por vez y, para cada iteración, mostrá usando echo el valor actual de $i".
+
+($i++ es la forma abreviada de $i = $i + 1. Vas a ver esto muchas veces.)
+
+@Instrucciones
+
+Completá el ciclo for en el editor reemplazando el ___ con la sintaxis de ciclo correcta.
+@CódigoBase
+
+<?php
+  // Muestra usando echo los primeros cinco números pares
+  ___ ($i = 2; $i < 11; $i = $i + 2) ___
+    echo $i;
+  ___
+?>
+@Solución
+
+<?php
+  // Muestra usando echo los primeros cinco números pares
+  for ($i = 2; $i < 11; $i = $i + 2) {
+    echo $i;
+  }
+?>
