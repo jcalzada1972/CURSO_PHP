@@ -1,0 +1,168 @@
+
+// las CuatroOperacines: 4Operaciones.php //
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Las Cuatro Operaciones</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1>Las Cuatro Operaciones</h1>
+        <!-- Formulario que envía los datos a calculadora.php -->
+        <form action="calculadora.php" method="POST">
+            <label for="numero1">Ingrese 1er Número:</label>
+            <input type="number" id="numero1" name="numero1" required>
+
+            <label for="numero2">Ingrese 2do Número:</label>
+            <input type="number" id="numero2" name="numero2" required>
+
+            <button type="submit" name="calcular">Calcular</button>
+            <button type="reset" name="reiniciar">Reiniciar</button>
+        </form>
+    </div>
+
+</body>
+</html>
+
+//--------- Archivo de Php : calculadora.php-----
+<?php
+// Inicializar las variables de resultado
+$suma = $resta = $multiplicacion = $division = null;
+
+// Verificar si el formulario fue enviado
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['calcular'])) {
+    // Obtener los números ingresados
+    $numero1 = $_POST['numero1'];
+    $numero2 = $_POST['numero2'];
+
+    // Realizar las operaciones
+    $suma = $numero1 + $numero2;
+    $resta = $numero1 - $numero2;
+    $multiplicacion = $numero1 * $numero2;
+    if ($numero2 != 0) {
+        $division = $numero1 / $numero2;
+    } else {
+        $division = "No se puede dividir entre 0";
+    }
+}
+?>
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Las Cuatro Operaciones - Resultados</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1>Resultados de las Operaciones</h1>
+
+        <!-- Mostrar los resultados de las operaciones -->
+        <?php if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['calcular'])): ?>
+            <div class="resultados">
+                <h3>Resultados:</h3>
+                <p>Suma: <?= $suma ?></p>
+                <p>Resta: <?= $resta ?></p>
+                <p>Multiplicación: <?= $multiplicacion ?></p>
+                <p>División: <?= is_numeric($division) ? $division : $division ?></p>
+            </div>
+        <?php endif; ?>
+
+        <!-- Volver a mostrar el formulario para nuevas operaciones -->
+        <a href="4Operaciones.php">Realizar otro cálculo</a>
+    </div>
+
+</body>
+</html>
+
+// ---- archivo Css------
+/* Estilo general */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+/* Contenedor principal */
+.container {
+    width: 100%;
+    max-width: 500px;
+    margin: 50px auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+/* Estilo de los campos de entrada */
+input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+
+button {
+    padding: 10px 20px;
+    margin: 5px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button[type="reset"] {
+    background-color: #f44336;
+}
+
+button:hover {
+    opacity: 0.8;
+}
+
+/* Estilo de los resultados */
+.resultados {
+    margin-top: 20px;
+    background-color: #f1f1f1;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.resultados p {
+    font-size: 18px;
+    color: #333;
+}
+
+/* Enlace para volver a realizar los cálculos */
+a {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    font-size: 18px;
+    color: #4CAF50;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+
