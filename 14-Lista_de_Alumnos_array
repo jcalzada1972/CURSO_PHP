@@ -1,1 +1,227 @@
+<!-- formulario: promedio.php -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Registro de Alumnos</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Registro de Alumnos</h1>
+        <form id="student-form" method="POST" action="lista.php">
+    <div class="student-group">
+        <label for="name">Nombre:</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="course">Curso:</label>
+        <input type="text" id="course" name="course" required>
+
+        <label for="note1">Nota 1:</label>
+        <input type="number" id="note1" name="note1" min="0" max="20" required>
+
+        <label for="note2">Nota 2:</label>
+        <input type="number" id="note2" name="note2" min="0" max="20" required>
+
+        <label for="note3">Nota 3:</label>
+        <input type="number" id="note3" name="note3" min="0" max="20" required>
+    </div>
+
+    <div class="buttons">
+        <button type="submit" id="submit-button">Guardar</button>  <!-- El botón ahora debe ser de tipo submit -->
+        <button type="reset" id="reset-button">Nuevo</button>
+        <button type="button" id="view-report-button" onclick="window.location.href='lista.php'">Ver Registro</button>
+    </div>
+</form>
+    </div>
+</body>
+</html>
+
+// sytyles.css
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+}
+
+.container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+form, table {
+    width: 100%;
+}
+
+label {
+    display: block;
+    margin: 10px 0 5px;
+    font-weight: bold;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.buttons {
+    text-align: center;
+    margin-top: 20px;
+}
+
+button, a.button {
+    padding: 10px 20px;
+    margin: 5px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #007bff;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: inline-block;
+}
+
+button:hover, a.button:hover {
+    background-color: #0056b3;
+}
+
+a.secondary-button {
+    background-color: #6c757d;
+}
+
+a.secondary-button:hover {
+    background-color: #5a6268;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+th {
+    background-color: #007bff;
+    color: #fff;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+.approved {
+    color: blue; /* Para Aprobado */
+    font-weight: bold;
+}
+
+.failed {
+    color: red; /* Para Desaprobado */
+    font-weight: bold;
+}
+
+// Script.js
+const form = document.getElementById('student-form');
+const submitButton = document.getElementById('submit-button');
+const resetButton = document.getElementById('reset-button');
+const viewReportButton = document.getElementById('view-report-button');
+const generateReportButton = document.getElementById('generate-report-button');
+const reportDiv = document.getElementById('report');
+
+let students = [];
+
+// Función para calcular el promedio
+function calculateAverage(notes) {
+    return (notes[0] + notes[1] + notes[2]) / 3;
+}
+
+// Función para obtener la observación
+function getObservation(average) {
+    return average >= 13 ? 'Aprobado' : 'Desaprobado';
+}
+
+// Función para agregar un nuevo estudiante
+submitButton.addEventListener('click', function () {
+    const name = document.getElementById('name').value;
+    const course = document.getElementById('course').value;
+    const note1 = parseFloat(document.getElementById('note1').value);
+    const note2 = parseFloat(document.getElementById('note2').value);
+    const note3 = parseFloat(document.getElementById('note3').value);
+
+    if (name && course && !isNaN(note1) && !isNaN(note2) && !isNaN(note3)) {
+        const average = calculateAverage([note1, note2, note3]);
+        const observation = getObservation(average);
+
+        const student = { name, course, note1, note2, note3, average, observation };
+        students.push(student);
+        
+        alert('Alumno registrado con éxito');
+        form.reset();
+    } else {
+        alert('Por favor, complete todos los campos.');
+    }
+});
+
+// Función para limpiar el formulario
+resetButton.addEventListener('click', function () {
+    reportDiv.innerHTML = '';  // Limpiar reporte si se reinicia el formulario
+});
+
+// Función para ver el reporte
+viewReportButton.addEventListener('click', function () {
+    window.location.href = 'lista.php';  // Dirigir a la página lista.php
+});
+
+// Función para generar el reporte
+generateReportButton.addEventListener('click', function () {
+    if (students.length === 0) {
+        reportDiv.innerHTML = '<p>No hay estudiantes registrados.</p>';
+        return;
+    }
+
+    let reportHTML = '<h2>Reporte de Estudiantes</h2>';
+    reportHTML += '<table><tr><th>Nombre</th><th>Curso</th><th>Nota 1</th><th>Nota 2</th><th>Nota 3</th><th>Promedio</th><th>Observación</th></tr>';
+
+    students.forEach(student => {
+        reportHTML += `
+            <tr>
+                <td>${student.name}</td>
+                <td>${student.course}</td>
+                <td>${student.note1}</td>
+                <td>${student.note2}</td>
+                <td>${student.note3}</td>
+                <td>${student.average.toFixed(2)}</td>
+                <td>${student.observation}</td>
+            </tr>
+        `;
+    });
+
+    reportHTML += '</table>';
+    reportDiv.innerHTML = reportHTML;
+});
 
